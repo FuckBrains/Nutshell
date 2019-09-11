@@ -1,0 +1,209 @@
+<!-- for each topic, generate the following 2 pages (a page is a <div class="page"> -->
+<div class="page">
+    <!-- same goes here as for the topic summary above, the id of each of the topic headers will be the same in the end but this should be fine if generating the content before compiling here -->
+    <h1 id="topicName-detailed">Rounding</h1>
+    <h2>1. Learn</h2>
+    <!--we have decided to add any html need for each of the resources to the python script rather than have it in here and hide it. This is because we want this file to be changed as little as possible-->
+    <div class="learning-resources-container">
+
+        <div class="learning-resource-container">
+            <div class="learning-resource">
+                <img id="learningResourceIcon" src="https://i.imgur.com/O7rr96H.png">
+            </div>
+            <div class="learning-resource-text-container">
+                <h5 id="learningResourceName">BBC Bitesize</h5>
+                <div class="learning-resource-types" id="learningResourceTypes">
+                    <p>Notes</p>
+                    <p>Examples</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="learning-resource-container">
+            <div class="learning-resource">
+                <img id="learningResourceIcon" src="https://i.imgur.com/AeKelY1.png">
+            </div>
+            <div class="learning-resource-text-container">
+                <h5 id="learningResourceName">YouTube</h5>
+                <div class="learning-resource-types" id="learningResourceTypes">
+                    <p>Videos</p>
+                    <p>Examples</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="learning-resource-container">
+            <div class="learning-resource">
+                <img id="learningResourceIcon" src="https://i.imgur.com/9tRDNNE.png">
+            </div>
+            <div class="learning-resource-text-container">
+                <h5 id="learningResourceName">Kahn Academy</h5>
+                <div class="learning-resource-types" id="learningResourceTypes">
+                    <p>Videos</p>
+                    <p>Notes</p>
+                    <p>Exercises</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- probs could have been a better way of doing this but to keep all the buttons inline with each other vertically no matter what content has come before, i have put the 1-3 a for each row below in a separate container  -->
+    <!-- this means you will have to loop through twice, once for the content and once for the number of buttons -->
+    <div class="learning-resources-buttons-container">
+        <a class="learning-resource-link button" href="#" id="learningResourceLink"><h5>Go ➔</h5></a>
+        <a class="learning-resource-link button" href="#" id="learningResourceLink"><h5>Go ➔</h5></a>
+        <a class="learning-resource-link button" href="#" id="learningResourceLink"><h5>Go ➔</h5></a>
+    </div>
+
+
+    <h2>2. Test</h2>
+    <p class="margin-bottom"><strong>Here are your mandatory questions on Rounding for the week. Click <a
+            href="#">here</a> for a reminder on how to submit your work</strong></p>
+
+    <!-- generate lerning resource containers for eeach of the test links -->
+    <div class="learning-resources-container" id="textLinks">
+
+        <div class="learning-resource-container">
+            <div class="learning-resource">
+                <img src="assets/books.png">
+            </div>
+            <div class="learning-resource-text-container">
+                <h5>Task 1</h5>
+                <div class="learning-resource-types">
+                    <p>Area and Volume Scale Factors Q1 and Q2 and Similair Triangles Q2 and Q7</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="learning-resource-container">
+            <div class="learning-resource">
+                <img src="assets/books.png">
+            </div>
+            <div class="learning-resource-text-container">
+                <h5>Task 2</h5>
+                <div class="learning-resource-types">
+                    <p>Area and Volume Scale Factors Q1 and Q2 and Similair Triangles Q2 and Q7</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="learning-resource-container">
+            <div class="learning-resource">
+                <img src="assets/books.png">
+            </div>
+            <div class="learning-resource-text-container">
+                <h5>Task 3</h5>
+                <div class="learning-resource-types">
+                    <p>Area and Volume Scale Factors Q1 and Q2 and Similair Triangles Q2 and Q7</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- also generate the right amount of buttons for the test links -->
+    <div class="learning-resources-buttons-container" id="testLinksButtons">
+        <a class="learning-resource-link button" href="#" id="learningResourceLink"><h5>Go ➔</h5></a>
+        <a class="learning-resource-link button" href="#" id="learningResourceLink"><h5>Go ➔</h5></a>
+        <a class="learning-resource-link button" href="#" id="learningResourceLink"><h5>Go ➔</h5></a>
+    </div>
+
+</div>
+
+<div class="page page-last" id="extraPracticePage">
+    <h2>3. Need more practice?</h2>
+
+    <!-- one of these bad boy containers hold up to three items. On this page, you can have up to 3 rows of these containers -->
+    <div class="learning-resources-container margin-top" id="extraRowOne">
+        <div class="learning-resource-container">
+            <div class="learning-resource">
+                <img src="assets/books.png">
+            </div>
+            <div class="learning-resource-text-container">
+                <h5>Task 1</h5>
+                <div class="learning-resource-types">
+                    <p>Area and Volume Scale Factors Q1 and Q2 and Similair Triangles Q2 and</p>
+                </div>
+            </div>
+        </div>
+        <div class="learning-resource-container">
+            <div class="learning-resource">
+                <img src="assets/books.png">
+            </div>
+            <div class="learning-resource-text-container">
+                <h5>Task 2</h5>
+                <div class="learning-resource-types">
+                    <p>Area and Volume Scale Factors Q1 and Q2 and Similair Triangles Q2 and</p>
+                </div>
+            </div>
+        </div>
+        <div class="learning-resource-container">
+            <div class="learning-resource">
+                <img src="assets/books.png">
+            </div>
+            <div class="learning-resource-text-container">
+                <h5>Task 3</h5>
+                <div class="learning-resource-types">
+                    <p>Area and Volume Scale Factors Q1 and Q2 and Similair Triangles Q2 and</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="learning-resources-buttons-container" id="extraRowOne-buttons">
+        <a class="learning-resource-link button" href="#" id="learningResourceLink"><h5>Go ➔</h5></a>
+        <a class="learning-resource-link button" href="#" id="learningResourceLink"><h5>Go ➔</h5></a>
+        <a class="learning-resource-link button" href="#" id="learningResourceLink"><h5>Go ➔</h5></a>
+    </div>
+
+
+    <div class="learning-resources-container margin-top" id="extraRowTwo">
+        <div class="learning-resource-container">
+            <div class="learning-resource">
+                <img src="assets/books.png">
+            </div>
+            <div class="learning-resource-text-container">
+                <h5>Task 1</h5>
+                <div class="learning-resource-types">
+                    <p>Area and Volume Scale Factors Q1 and Q2 and Similair Triangles Q2 and</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="learning-resources-buttons-container" id="extraRowTwo-buttons">
+        <a class="learning-resource-link button" href="#" id="learningResourceLink"><h5>Go ➔</h5></a>
+    </div>
+
+
+    <div class="learning-resources-container margin-top" id="extraRowThree">
+        <div class="learning-resource-container">
+            <div class="learning-resource">
+                <img src="assets/books.png">
+            </div>
+            <div class="learning-resource-text-container">
+                <h5>Task 1</h5>
+                <div class="learning-resource-types">
+                    <p>Area and Volume Scale Factors Q1 and Q2 and Similair Triangles Q2 and</p>
+                </div>
+            </div>
+        </div>
+        <div class="learning-resource-container">
+            <div class="learning-resource">
+                <img src="assets/books.png">
+            </div>
+            <div class="learning-resource-text-container">
+                <h5>Task 2</h5>
+                <div class="learning-resource-types">
+                    <p>Area and Volume Scale Factors Q1 and Q2 and Similair Triangles Q2 and</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="learning-resources-buttons-container" id="extraRowThree-buttons">
+        <a class="learning-resource-link button" href="#" id="learningResourceLink"><h5>Go ➔</h5></a>
+        <a class="learning-resource-link button" href="#" id="learningResourceLink"><h5>Go ➔</h5></a>
+    </div>
+
+</div>
