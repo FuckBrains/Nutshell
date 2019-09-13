@@ -55,6 +55,7 @@ def generate_resource_html(template_task_sheet, topic, image_url, header_text, p
 
     button_html = a(
         h5("Go ➔"),
+        target="_blank",
         _class="learning-resource-link button",
         href=resource_link,
         id="learningResourceLink"

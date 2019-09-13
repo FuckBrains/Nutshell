@@ -2,6 +2,7 @@ from WeeklyContentGeneratorModules.SchemeOfWorkFunctions import getweekrow, get_
     gettext, gettexts,getlink
 from WeeklyContentGeneratorModules.TaskSheetFunctions import replace_in_output, add_to_output, code_to_information, \
     generate_resource_html
+import pdfkit
 
 __author__ = "Jack Walker"
 import os
@@ -14,20 +15,7 @@ import json
 # outputTaskSheet: The completed task sheet filled with content for week provided by user
 
 
-def main(nutshell_directory):
-    # Get weekNumber from user
-    while True:
-        try:
-            week_num = input("Week Number:\n")
-            if 0 < int(week_num) < 53:
-                break
-            else:
-                raise TypeError
-        except TypeError:
-            print("Enter week number between 1 and 52:\n")
-            continue
-
-    # ********************************************************************************
+def main(nutshell_directory, week_num):
 
     # 1. Open all files and store values
     output_json = {}
@@ -48,7 +36,7 @@ def main(nutshell_directory):
 
     # Iterate over each topic storing data for each
     topics = [{}, {}, {}]
-    for topic_num in range(1, 4):
+    for topic_num in reversed(range(1, 4)):
         topic = topics[topic_num - 1]
         index = topic_num + 6
         topic["title"] = sow_week_row[index].get_text()
@@ -129,7 +117,6 @@ def main(nutshell_directory):
         os.makedirs(week_path)
     with open(os.path.join(week_path, "output.json"), "w+") as output_json_file:
         output_json_file.write(json.dumps(output_json))
-    return ""
 
     # 4. Replace and add values to template file
     # Front page linear values
@@ -142,7 +129,7 @@ def main(nutshell_directory):
     add_to_output(template_task_sheet, "app-container", str(app_image_html))
 
     # Topics
-    for topic_num in range(1, 4):
+    for topic_num in reversed(range(1, 4)):
         topic = topics[topic_num - 1]
 
         # Front page topic circles
@@ -159,14 +146,18 @@ def main(nutshell_directory):
         replace_in_output(template_task_sheet, "h1", "topicName-detailed", topics[topic_num - 1]["title"])
 
         # Learn section for topic
-        if topic["learn"] == {}:
+        if not topic["learn"]:
+            error_html = p("")
+            with error_html:
+                strong("Sorry, no learning resources available yet.")
+
             add_to_output(
                 template_task_sheet,
                 "learn-resources-container",
-                p("Sorry, no learning resources available yet.")
+                str(error_html)
             )
         else:
-            for resource in topic["learn"]:
+            for resource in reversed(topic["learn"]):
                 resource_info = code_to_information(resource["code"])
                 available_material_html = div(
                     p("Videos") if resource_info["videos"] else p(),
@@ -185,28 +176,65 @@ def main(nutshell_directory):
                 )
 
         # Homework section for topic
-        if topic["n5w"]["homework"] == {}:
+        homeworks_remaining = 3
+        if not topic["n5w"]["homework"]:
+            replace_in_output(template_task_sheet, "p", "test-paragraph-container", "")
+            error_html = p("")
+            with error_html:
+                strong("No homework for this topic, you're welcome!")
+
             add_to_output(
                 template_task_sheet,
-                "homework-resources-container",
-                p("No homework for this topic, you're welcome!")
+                "test-resources-container",
+                str(error_html)
             )
         else:
-            for index, resource in enumerate(topic["n5w"]["homework"]):
+            for index, resource in enumerate((topic["n5w"]["homework"])):
                 resource_info = code_to_information("n5w")
                 generate_resource_html(
                     template_task_sheet,
                     topics[topic_num - 1]["title"],
                     resource_info["image"],
-                    "Task " + str(index+1),
+                    "Task " + str(homeworks_remaining),
                     p(resource["description"]),
                     resource["link"],
                     "test"
                 )
 
+                homeworks_remaining = homeworks_remaining - 1
+                if homeworks_remaining == 0:
+                    break
+
+
         # Exercise section for topic
+        # Add national 5 resources first
         row = 1
-        if not topic["n5w"]["exercises"]:
+        resources = 0
+        exercises_remaining = 3
+        if topic["n5w"]["exercises"]:
+            for index, resource in enumerate(topic["n5w"]["exercises"]):
+                resources = resources + 1
+                resource_info = code_to_information("n5w")
+                generate_resource_html(
+                    template_task_sheet,
+                    topics[topic_num - 1]["title"],
+                    resource_info["image"],
+                    "Task " + str(exercises_remaining),
+                    p(resource["title"]),
+                    resource["link"],
+                    "exercise",
+                    row
+                )
+
+                exercises_remaining = exercises_remaining - 1
+                if resources % 3 == 0:
+                    row = row + 1
+                    exercises_remaining = resources + 3
+                elif resources == 9:
+                    break
+
+        # Add Past paper questions
+        if topic["n5w"]["past_paper_questions"] and resources == 0:
             error_html = p("")
             with error_html:
                 strong("No extra exercises available")
@@ -217,25 +245,43 @@ def main(nutshell_directory):
                 str(error_html)
             )
         else:
-            for index, resource in enumerate(topic["n5w"]["exercises"]):
+            for index, resource in enumerate(topic["n5w"]["past_paper_questions"]):
+                resources = resources + 1
                 resource_info = code_to_information("n5w")
                 generate_resource_html(
                     template_task_sheet,
                     topics[topic_num - 1]["title"],
                     resource_info["image"],
-                    "Task " + str(index+1),
+                    "Task " + str(exercises_remaining),
                     p(resource["title"]),
                     resource["link"],
                     "exercise",
                     row
                 )
 
-                if index+1 % 3 == 0:
+                exercises_remaining = exercises_remaining - 1
+                if resources == 9:
+                    break
+                elif resources % 3 == 0:
+                    exercises_remaining = resources + 3
                     row = row + 1
+
 
     # Close the Template file and output new HTML file
     if not os.path.exists(week_path):
         os.makedirs(week_path)
     with open(os.path.join(week_path, "task_sheet.html"), "wb") as output_task_sheet:
         output_task_sheet.write(template_task_sheet.prettify("utf-8"))
-    return ""
+
+    # TODO: Fix display issues
+    # Convert HTML to PDF
+    # options = {
+    #     'page-size': 'A4',
+    #     'margin-top': '0in',
+    #     'margin-right': '0in',
+    #     'margin-bottom': '0in',
+    #     'margin-left': '0in',
+    #     'no-outline': None
+    # }
+    # pdfkit.from_file(os.path.join(week_path, 'task_sheet.html'), 'out.pdf',options)
+    # return ""
