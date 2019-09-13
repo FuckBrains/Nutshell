@@ -31,7 +31,7 @@ def get_file_path(nutshell_directory, code):
         "MG": "MG - Mr Graham Maths.html",
         "IXL": "IXL - IXL Learning.html",
         "ka": "KA - Khan Academy.html",
-        "N5W": "N5W - National5maths.co.uk.html"
+        "n5w": "N5W - National5maths.co.uk.html"
     }
     return os.path.join(nutshell_directory, "TaskSheetContent", "PremadeContent", "SchemeOfWork", switcher.get(code, "nothing"))
 
@@ -51,28 +51,32 @@ def gettexts(row, startCol, endCol):
 
 def getlink(nutshell_directory, code, term):
     file = openfile(get_file_path(nutshell_directory, code))
-    row = getmatchedrow(file, 2, term)
-
-    return row[3].get_text()
-
-
-def getlinks(nutshell_directory, code, terms):
-    if code == "N5W":
-        matchTitleRow = 4
-        linkRow = 5
+    if code == "n5w":
+        row = getmatchedrow(file, 4, term)
+        return row[5].get_text()
     else:
-        matchTitleRow = 2
-        linkRow = 3
-    file = openfile(get_file_path(nutshell_directory, code))
+        row = getmatchedrow(file, 2, term)
+        return row[3].get_text()
 
-    links = []
-    for term in terms:
-        row = getmatchedrow(file, matchTitleRow, term)
-        text = row[linkRow].get_text()
-        if text != "":
-            links.extend([text])
 
-    return links
+
+# def getlinks(nutshell_directory, code, terms):
+#     if code == "n5w":
+#         matchTitleRow = 4
+#         linkRow = 5
+#     else:
+#         matchTitleRow = 2
+#         linkRow = 3
+#     file = openfile(get_file_path(nutshell_directory, code))
+#
+#     links = []
+#     for term in terms:
+#         row = getmatchedrow(file, matchTitleRow, term)
+#         text = row[linkRow].get_text()
+#         if text != "":
+#             links.extend([text])
+#
+#     return links
 
 
 def openfile(path):
