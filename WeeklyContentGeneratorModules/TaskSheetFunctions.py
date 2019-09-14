@@ -11,7 +11,7 @@ def add_to_output(templateTaskSheet, id_name, content):
     target.insert(0, BeautifulSoup(content, features="html.parser"))
 
 
-def code_to_information(code):
+def code_to_information(code, task_number=0):
     switcher = {
         "bbc": {
             "name": "BBC Bitesize",
@@ -35,7 +35,7 @@ def code_to_information(code):
             "image": "https://i.imgur.com/SiWC5fP.png"
         },
         "n5w": {
-            "name": "National5Maths.co.uk",
+            "name": "Task " + str(task_number),
             "videos": False,
             "notes": False,
             "exercises": True,
@@ -61,13 +61,13 @@ def generate_resource_html(template_task_sheet, topic, image_url, header_text, p
         id="learningResourceLink"
     )
 
-    if resource_type == "exercise":
+    if resource_type == "exercises":
         add_to_output(template_task_sheet, resource_type + "-" + str(row) + "-resources-container margin-top", str(resource_html))
         add_to_output(template_task_sheet, resource_type + "-" + str(row) + "-resources-buttons-container", str(button_html))
     else:
         add_to_output(template_task_sheet, resource_type + "-resources-container", str(resource_html))
         add_to_output(template_task_sheet, resource_type + "-resources-buttons-container", str(button_html))
-        if resource_type == "test":
-            replace_in_output(template_task_sheet, "span", "test-paragraph", topic)
+        if resource_type == "homework":
+            replace_in_output(template_task_sheet, "span", "homework-paragraph", topic)
 
     return {"body": resource_html, "button": button_html}
