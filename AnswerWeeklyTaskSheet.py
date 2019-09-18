@@ -19,8 +19,8 @@ while True:
         print("Enter week number between 1 and 18")
         continue
 
-# Get weekNumber from user
-title = '\nWhich sections would you like to view'
+# Get sections from user
+title = '\nWhich sections would you like to create answers for'
 options = ["learn", "homework", "exercises", "past_paper_questions"]
 sections_selected = pick(options, title, multi_select=True, min_selection_count=1)
 
