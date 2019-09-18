@@ -9,4 +9,3 @@ def main(details_of_video):
     # TODO: Is there anyway to record in 1080 x 1080
     mycmd = 'ffmpeg -i "' + raw_full_directory + '" -filter:v \"crop=815:815:700:214\" -c:a copy "' + raw_square_directory + '"'
     os.system(mycmd)
-    return VideoFileClip(raw_square_directory)

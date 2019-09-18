@@ -9,7 +9,7 @@ from WeeklyContentGeneratorModules.TaskSheetFunctions import replace_in_output, 
 
 def update_front_page(template_task_sheet, unit_name, week_num, app_of_the_week):
     # Front page linear values
-    replace_in_output(template_task_sheet, "span", "weekNum", "Week " + week_num + " of 18")
+    replace_in_output(template_task_sheet, "span", "weekNum", "Task sheet " + week_num + " of 14")
     replace_in_output(template_task_sheet, "span", "unitName", unit_name)
     replace_in_output(template_task_sheet, "h5", "appName", app_of_the_week["name"])
     replace_in_output(template_task_sheet, "p", "appDescription", app_of_the_week["description"])

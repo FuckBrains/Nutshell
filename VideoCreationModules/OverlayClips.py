@@ -8,7 +8,10 @@ def overlay_clips(resized_raw_square_video, background_video, position):
          resized_raw_square_video.set_pos(position)]).set_duration(resized_raw_square_video.duration)
 
 
-def main(details_of_video, orientation, background_video, raw_square_video):
+def main(details_of_video, orientation, background_video_path):
+
+    background_video = VideoFileClip(background_video_path)
+    raw_square_video = VideoFileClip(os.path.join(details_of_video["relative_path"], "raw_square.mp4"))
 
     # TODO: Check with recording screen at different scale
     # TODO: Check with changing screen size once

@@ -5,20 +5,20 @@ import os
 # Concatenate Clips
 def main(details_of_video, nutshell_directory, orientation, raw_with_background_path):
 
-    if orientation == "portrait":
-        size = (1080, 1920)
-    elif orientation == "landscape":
-        size = (1920, 1080)
-
-    # METHOD 1: Moviepy slow good quality
     pre_made_clips_directory = os.path.join(nutshell_directory, "VideoContent", "PremadeClips")
 
     intro = VideoFileClip(os.path.join(pre_made_clips_directory, orientation, "Intro-RollOnly.mp4"))
     main = VideoFileClip(raw_with_background_path)
     outro = VideoFileClip(os.path.join(pre_made_clips_directory, orientation, "Outro-Blank.mp4"))
 
+    if orientation == "portrait":
+        clips = [intro, main]
+    elif orientation == "landscape":
+        clips = [intro, main, outro]
+
+    # METHOD 1: Moviepy slow good quality
     # TODO: Play about with padding
-    final_clip = concatenate_videoclips([intro, main, outro], method="chain")
+    final_clip = concatenate_videoclips(clips, method="chain")
     # final_clip = concatenate_videoclips([intro, main, outro], method="chain")
 
     # TODO: Check each separately
