@@ -18,7 +18,6 @@ def write_video_details_to_json(details_of_video):
 
 
 def prepare_video(nutshell_directory, orientations, inputs):
-    print("Prepare video")
     if not inputs:
         inputs = UserInput.get_input(nutshell_directory)
     inputs["display_text"] = UserInput.get_display_text(inputs["skill"])
@@ -28,11 +27,9 @@ def prepare_video(nutshell_directory, orientations, inputs):
 
 
 def create_video(nutshell_directory, orientations, details_of_video):
-    print("Create video")
     CropRecording.main(details_of_video)
     background_video_paths = {}
     for orientation in orientations:
-        print(orientation)
         background_video_paths[orientation] = BackgroundToVideo.main(
             orientation,
             details_of_video["background_path"][orientation]
@@ -51,13 +48,13 @@ def main(operation, inputs):
         details_of_video = prepare_video(nutshell_directory, orientations, inputs)
         write_video_details_to_json(details_of_video)
 
-    elif operation == "create":
-        if inputs:
-            with open(os.path.join(inputs["relative_path"], "details_of_video.json"), 'r') as f:
-                details_of_video = json.load(f)
-            create_video(nutshell_directory, orientations, details_of_video)
-        else:
-            print("Must provide input JSON with details of pre prepared content")
+    # elif operation == "create":
+    #     if inputs:
+    #         with open(os.path.join(inputs["relative_path"], "details_of_video.json"), 'r') as f:
+    #             details_of_video = json.load(f)
+    #         create_video(nutshell_directory, orientations, details_of_video)
+    #     else:
+    #         print("Must provide input JSON with details of pre prepared content")
 
     elif operation == "all":
         details_of_video = prepare_video(nutshell_directory, orientations)

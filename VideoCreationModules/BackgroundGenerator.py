@@ -86,6 +86,5 @@ def main(nutshell_directory, orientations, inputs):
     header2 = ImageFont.truetype(light_font_filepath, 80)
 
     details_of_video = generate_background(nutshell_directory, header1, header2, orientations, inputs)
-    print(details_of_video)
 
     return details_of_video

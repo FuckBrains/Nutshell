@@ -1,6 +1,6 @@
 __author__ = "Jack Walker"
 
-from AnswerGeneratorModules import OpenLinks
+from AnswerGeneratorModules import AnswerQuestions
 
 import os
 from pick import pick
@@ -24,4 +24,4 @@ title = '\nWhich sections would you like to create answers for'
 options = ["learn", "homework", "exercises", "past_paper_questions"]
 sections_selected = pick(options, title, multi_select=True, min_selection_count=1)
 
-OpenLinks.main(nutshell_directory, week_num, [section for (section, index) in sections_selected])
+AnswerQuestions.main(nutshell_directory, week_num, [section for (section, index) in sections_selected])
