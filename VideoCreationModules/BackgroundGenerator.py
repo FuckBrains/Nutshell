@@ -4,7 +4,6 @@ __author__ = "Jack Walker"
 
 import os
 from PIL import Image, ImageDraw, ImageFont
-from pick import pick
 
 
 # Generates a portrait and landscape image for a SQA question(s)

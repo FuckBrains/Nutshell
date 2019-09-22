@@ -11,15 +11,15 @@ def overlay_clips(resized_raw_square_video, background_video, position):
 def main(details_of_video, orientation, background_video_path):
 
     background_video = VideoFileClip(background_video_path)
-    raw_square_video = VideoFileClip(os.path.join(details_of_video["relative_path"], "raw_square.mp4"))
+    trimmed_square_video = VideoFileClip(os.path.join(details_of_video["relative_path"], "trimmed_square.mp4"))
 
     # TODO: Check with recording screen at different scale
     # TODO: Check with changing screen size once
     # 30 mins with resizing
     # 15 mins without resizing
     # https://stackoverflow.com/questions/25122740/different-between-s-and-vf-scale-in-ffmpeg-especially-in-two-pass-transc
-    # resized_raw_square_video = raw_square_video.resize((1080, 1080))
-    resized_raw_square_video = raw_square_video
+    resized_raw_square_video = trimmed_square_video.resize((1080, 1080))
+    # resized_raw_square_video = raw_square_video
 
     # TODO: Tidy up
     if orientation == "landscape":
@@ -36,6 +36,6 @@ def main(details_of_video, orientation, background_video_path):
     final_clip.write_videofile(final_clip_path, threads=4)
 
     background_video.reader.close()
-    raw_square_video.reader.close()
+    trimmed_square_video.reader.close()
 
     return final_clip_path

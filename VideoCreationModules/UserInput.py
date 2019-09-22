@@ -80,7 +80,7 @@ def get_n5w_input(nutshell_directory, output_directory):
         "type": "n5w",
         "skill": skill,
         "task_number": task_number,
-        "relative_path": os.path.join(output_directory, "N5WQuestion", skill, "Task"+task_number)
+        "relative_path": os.path.join(output_directory, "N5WQuestion", skill.replace(" ", ""), "Task"+task_number)
     }
 
 

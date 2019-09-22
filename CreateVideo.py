@@ -11,6 +11,8 @@ from VideoCreationModules import BackgroundToVideo
 from VideoCreationModules import OverlayClips
 from VideoCreationModules import ConcatenateClips
 from VideoCreationModules import UserInput
+from VideoCreationModules import TrimAudio
+
 
 def write_video_details_to_json(details_of_video):
     with open(os.path.join(details_of_video["relative_path"], "details_of_video.json"), "w+") as output_json_file:
@@ -20,7 +22,8 @@ def write_video_details_to_json(details_of_video):
 def prepare_video(nutshell_directory, orientations, inputs):
     if not inputs:
         inputs = UserInput.get_input(nutshell_directory)
-    inputs["display_text"] = UserInput.get_display_text(inputs["skill"])
+    if inputs["type"] == "n5w":
+        inputs["display_text"] = UserInput.get_display_text(inputs["skill"])
     details_of_video = BackgroundGenerator.main(nutshell_directory, orientations, inputs)
     RecordScreen.main(details_of_video)
     return details_of_video
@@ -28,6 +31,7 @@ def prepare_video(nutshell_directory, orientations, inputs):
 
 def create_video(nutshell_directory, orientations, details_of_video):
     CropRecording.main(details_of_video)
+    TrimAudio.main(details_of_video)
     background_video_paths = {}
     for orientation in orientations:
         background_video_paths[orientation] = BackgroundToVideo.main(
@@ -48,13 +52,13 @@ def main(operation, inputs):
         details_of_video = prepare_video(nutshell_directory, orientations, inputs)
         write_video_details_to_json(details_of_video)
 
-    # elif operation == "create":
-    #     if inputs:
-    #         with open(os.path.join(inputs["relative_path"], "details_of_video.json"), 'r') as f:
-    #             details_of_video = json.load(f)
-    #         create_video(nutshell_directory, orientations, details_of_video)
-    #     else:
-    #         print("Must provide input JSON with details of pre prepared content")
+    elif operation == "create":
+        if inputs:
+            with open(os.path.join(inputs["relative_path"], "details_of_video.json"), 'r') as f:
+                details_of_video = json.load(f)
+            create_video(nutshell_directory, orientations, details_of_video)
+        else:
+            print("Must provide input JSON with details of pre prepared content")
 
     elif operation == "all":
         details_of_video = prepare_video(nutshell_directory, orientations)
@@ -65,7 +69,9 @@ def main(operation, inputs):
         print("Please input arg as prepare, create or all")
 
 
-if len(sys.argv) > 1:
-    main(sys.argv[1], {})
+if len(sys.argv) > 2:
+    main(sys.argv[1], sys.argv[2])
+elif len(sys.argv) > 1:
+    main(sys.argv[1], {"relative_path": sys.argv[2]})
 else:
     print("Please input arg as prepare, create or all")
